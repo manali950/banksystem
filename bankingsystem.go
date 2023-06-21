@@ -5,9 +5,12 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
+	"net/http"
 	"os"
 	"strings"
 	"time"
+
+	// "github.com/gotilla/mux"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -55,7 +58,23 @@ var (
 // 	// AuthorsCollection = db.Collection("authors")
 // }
 
+// var users []User = []users{}
+
+// func addaccount(q http.ResponseWriter, r *http.Request) {
+// 	var newAccount User
+// 	json.NewDecoder(r.Body).Decode(&newAccount)
+// 	w.Header().set("Content-Type", application/json)
+
+// 	users = append(users, newAccount)
+
+// 	json.NewEncoder(q).Encode(users)
+// }
+
 func main() {
+
+	router := mux.NewRouter()
+	http.ListenAndServe(":5000", router)
+	router.HandleFunc("/createAccount", addaccount).Methods("POST")
 
 	var users User // users{1,"","","",""}
 	var choice int
@@ -603,3 +622,49 @@ func saveToDb(data []User) {
 
 	}
 }
+
+// func updateToDb(data []User) {
+// 	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
+// 	// fmt.Println("ClientOptopm TYPE:", reflect.TypeOf(clientOptions), "\n")
+
+// 	client, err := mongo.Connect(context.TODO(), clientOptions)
+// 	if err != nil {
+// 		fmt.Println("Mongo.connect() ERROR: ", err)
+// 		os.Exit(1)
+// 	}
+// 	ctx, _ := context.WithTimeout(context.Background(), 15*time.Second)
+// 	col := client.Database("lenadena").Collection("users")
+
+// 	// fmt.Println("Collection Type: ", reflect.TypeOf(col), "\n")
+
+// 	// oneDoc := MongoField{
+// 	// 	FieldStr:  "This is our first data and its very important",
+// 	// 	FieldInt:  826482746,
+// 	// 	FieldBool: true,
+// 	// }
+// 	var oneDoc2 User
+// 	for i := 0; i < len(data); i++ {
+// 		if data[i].UserID != 0 {
+// 			// fmt.Println("\n\t\t\tArr Default:", data[i])
+// 			oneDoc2 = User{
+// 				UserBalance:     data[i].UserBalance,
+// 			}
+// 		}
+// 	}
+
+// 	// fmt.Println("oneDoc Type: ", reflect.TypeOf(oneDoc), "\n")
+// 	// fmt.Println("oneDoc Type: ", reflect.TypeOf(oneDoc2), "\n")
+// 	result, insertErr := col.updateOne(ctx, oneDoc2)
+// 	if insertErr != nil {
+// 		fmt.Println("updateOne Error:", insertErr, result)
+// 		os.Exit(1)
+// 	} else {
+// 		// fmt.Println("InsertOne() result type: ", reflect.TypeOf(result))
+// 		// fmt.Println("\n\t\t\tInsertOne() api result type: ", result)
+
+// 		// newID := result.InsertedID
+// 		// fmt.Println("InsertedOne(), newID", newID)
+// 		// fmt.Println("InsertedOne(), newID type:", reflect.TypeOf(newID))
+
+// 	}
+// }
