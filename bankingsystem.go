@@ -89,7 +89,7 @@ func main() {
 		switch choice {
 		case 1:
 			var input int
-			fmt.Printf("\n\n\n\t\t\t Which type of account u wanna to create ")
+			fmt.Printf("\n\n\t\t\t Which type of account u wanna to create ")
 			fmt.Printf("\n\t\t\t press 1 to Savings Account (100 rupes bank limit)")
 			fmt.Printf("\n\t\t\t press 2 to Current Account")
 			fmt.Printf("\n\t\t\t press 3 to Fixed Account")
@@ -98,7 +98,9 @@ func main() {
 			userData := users.CreateAccount(input, arr)
 			go waiting()
 			time.Sleep(3 * time.Second)
+			fmt.Printf("\t\t\t--------------------------------------------------------------------------------------------")
 			fmt.Println("\n\t\t\t User Detail which save in DB: ", userData)
+			fmt.Printf("\t\t\t--------------------------------------------------------------------------------------------")
 			if userData.UserID != 0 {
 				arr = append(arr, userData)
 				saveToDb(arr)
@@ -111,7 +113,7 @@ func main() {
 			var status bool = false
 			var atype string
 			var depoAmount float64
-			fmt.Printf("\n\n\n\t\t\t Deposit From ")
+			fmt.Printf("\n\t\t\t Deposit From ")
 			fmt.Printf("\n\t\t\t press 1 to Savings Account")
 			fmt.Printf("\n\t\t\t press 2 to Current Account")
 			fmt.Printf("\n\t\t\t press 3 to Fixed Account")
@@ -135,7 +137,7 @@ func main() {
 			var status bool = false
 			var atype string
 			var withdrawAmount float64
-			fmt.Printf("\n\n\n\t\t\t Withdraw From ")
+			fmt.Printf("\n\t\t\t Withdraw From ")
 			fmt.Printf("\n\t\t\t press 1 to Savings Account")
 			fmt.Printf("\n\t\t\t press 2 to Current Account")
 			fmt.Printf("\n\t\t\t press 3 to Fixed Account")
@@ -154,12 +156,12 @@ func main() {
 			}
 			WithdrawAmmount(arr, atype, accNo, withdrawAmount, status)
 		case 4:
-			fmt.Printf("\n\n\n\t\t\t View All Accounts")
+			fmt.Printf("\n\t\t\t View All Accounts")
 			ShowAllAccount(arr)
 		case 5:
 			var searchAccount int
 			var status bool = false
-			fmt.Printf("\n\n\n\t\t\tEnter a Account no. to Search :=>")
+			fmt.Printf("\n\t\t\tEnter a Account no. to Search :=>")
 			fmt.Scan(&searchAccount)
 			SearchAccount(arr, searchAccount, status)
 		default:
@@ -353,7 +355,7 @@ func DepositAmmount(arr []User, atype string, accNo int, depoAmount float64, sta
 			if arr[i].UserType == atype && arr[i].UserAccountNo == accNo {
 				fmt.Println("\n\t\t\tYour Infomation: \n\t\t\t Your Id:", arr[i].UserID, "\n\t\t\t Your Name:", arr[i].UserName)
 				fmt.Println("\n\t\t\tYou Current Balance:", arr[i].UserBalance)
-				fmt.Println("\n\t\t\tEnter Deposit Amount:")
+				fmt.Printf("\n\t\t\tEnter Deposit Amount:")
 				fmt.Scan(&depoAmount)
 				if arr[i].UserType == "saving" {
 					for (arr[i].UserBalance + depoAmount) > 250000 {
@@ -589,11 +591,11 @@ func saveToDb(data []User) {
 	// fmt.Println("oneDoc Type: ", reflect.TypeOf(oneDoc2), "\n")
 	result, insertErr := col.InsertOne(ctx, oneDoc2)
 	if insertErr != nil {
-		fmt.Println("InsertONE Error:", insertErr)
+		fmt.Println("InsertONE Error:", insertErr, result)
 		os.Exit(1)
 	} else {
 		// fmt.Println("InsertOne() result type: ", reflect.TypeOf(result))
-		fmt.Println("\n\t\t\tInsertOne() api result type: ", result)
+		// fmt.Println("\n\t\t\tInsertOne() api result type: ", result)
 
 		// newID := result.InsertedID
 		// fmt.Println("InsertedOne(), newID", newID)
